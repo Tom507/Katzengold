@@ -1,4 +1,4 @@
 package Katzengold;
 
-public class Movable {
+public class Movable extends Collidable{
 }

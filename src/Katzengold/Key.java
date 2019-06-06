@@ -1,4 +1,5 @@
 package Katzengold;
 
-public class Key {
+public class Key extends Collidable {
+
 }

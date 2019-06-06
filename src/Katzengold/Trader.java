@@ -1,4 +1,4 @@
 package Katzengold;
 
-public class Trader {
+public class Trader extends Collidable{
 }

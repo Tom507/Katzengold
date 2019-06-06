@@ -30,7 +30,6 @@ public class Simulation implements ActionListener, BoardClickListener {
 	private Board board;
 	private Graphic graphic;
 
-
 	private int rundenZaeler = 0;
 	private JLabel Zaehler = new JLabel();
 

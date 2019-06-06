@@ -1,4 +1,4 @@
 package Katzengold;
 
-public class Coin {
+public class Coin extends Collidable {
 }
