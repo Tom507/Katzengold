@@ -1,23 +1,40 @@
 package Katzengold;
 
-import java.lang.reflect.Array;
-import java.security.PublicKey;
+import jserver.XSendAdapterEN;
 
 public class Map {
 
-    public int[][] blub = {{1,1},{2,3}};
+    public static int mapSize = 20;
 
-    public int MapSize = 20;
+    public static Collidable[][] Level = new Collidable[mapSize][mapSize];
 
-    public Map(){
-        for (LevelTile[] Row: MapObjects ) {
-            for(LevelTile Tile: Row){
+    //public LevelTile[] tiles = {};
 
-            }
+    private MapObject tree = new MapObject("resources/Tree.png", true);
+    private MapObject sea = new MapObject("resources/Water.png", true);
+    private MapObject coin = new MapObject("resources/Coin.png", false);
+
+
+    public void generateMap(XSendAdapterEN xs){
+
+        for(int i=0; i<20; i++){ //level füllen random
+            int rand1 = (int)(Math.random()*20);
+            int rand2 = (int)(Math.random()*20);
+            Level[rand1][rand2] = new Collidable(rand1, rand2, tree.directory, xs, tree.collidable);
+        }
+        for(int i=0; i<10; i++){ //level füllen random
+            int rand1 = (int)(Math.random()*20);
+            int rand2 = (int)(Math.random()*20);
+            Level[rand1][rand2] = new Collidable(rand1, rand2, sea.directory, xs, sea.collidable);
+        }
+        for(int i=0; i<3; i++){ //level füllen random
+            int rand1 = (int)(Math.random()*20);
+            int rand2 = (int)(Math.random()*20);
+            Level[rand1][rand2] = new Coin(rand1, rand2, coin.directory, xs, coin.collidable, 1);
         }
     }
 
-    public LevelTile[][] MapObjects = new LevelTile[MapSize][MapSize];
+    public LevelTile[][] MapObjects = new LevelTile[mapSize][mapSize];
 
     public LevelTile GetObject (int x, int y){
         return MapObjects[x][y];

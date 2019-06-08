@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="jserver">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../jserver.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../stephaneuler-board-of-symbols-8f46cc7/jserver.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
