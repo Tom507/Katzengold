@@ -13,6 +13,7 @@ public class Map {
     private MapObject tree = new MapObject("resources/Tree.png", true);
     private MapObject sea = new MapObject("resources/Water.png", true);
     private MapObject coin = new MapObject("resources/Coin.png", false);
+    private MapObject key = new MapObject("resources/Key.png", false);
 
 
     public void generateMap(XSendAdapterEN xs){
@@ -31,6 +32,11 @@ public class Map {
             int rand1 = (int)(Math.random()*20);
             int rand2 = (int)(Math.random()*20);
             Level[rand1][rand2] = new Coin(rand1, rand2, coin.directory, xs, coin.collidable, 1);
+        }
+        for(int i=0; i<2; i++){ //level füllen random
+            int rand1 = (int)(Math.random()*20);
+            int rand2 = (int)(Math.random()*20);
+            Level[rand1][rand2] = new Key(rand1, rand2, key.directory, xs, key.collidable, 1);
         }
     }
 

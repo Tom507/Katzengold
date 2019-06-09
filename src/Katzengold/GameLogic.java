@@ -38,7 +38,7 @@ public class GameLogic implements KeyListener{
         Gl();
     }
 
-    public Movable player;
+    public CatPlayer player;
 
     public void Gl(){
 
@@ -46,9 +46,8 @@ public class GameLogic implements KeyListener{
 
         map.generateMap(xsend);
 
-        LevelTile tile = new LevelTile(6,6,"resources/Arrow.png", xsend);
 
-        player = new CatPlayer(8,8,"resources/Arrow.png", xsend, 0);
+        player = new CatPlayer(8,8,"resources/Arrow.png", xsend);
         System.out.println("test: " + (int)(Math.random()*20));
 
         board.redrawSymbols();
@@ -56,10 +55,7 @@ public class GameLogic implements KeyListener{
 
     //TODO:
     /*
-    - Münzen Werte
-        - Inventar
-    - Schlüssel
-        - Inventar
+
         - Verkäufer
     - Tür
     - Gegner
