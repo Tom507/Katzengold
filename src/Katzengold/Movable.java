@@ -1,8 +1,14 @@
 package Katzengold;
 
+import jserver.Board;
 import jserver.XSendAdapterEN;
+import plotter.Plotter;
 
 public class Movable extends Collidable{
+
+    public XSendAdapterEN xsend;
+    public Board board;
+    public Plotter plotter;
 
     protected String up = "resources/Up.png";
     protected String down = "resources/Down.png";

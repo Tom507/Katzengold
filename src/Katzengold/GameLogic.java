@@ -39,22 +39,24 @@ public class GameLogic implements KeyListener{
     }
 
     public CatPlayer player;
+    public MapGen MG;
 
     public void Gl(){
 
+        MG = new MapGen(false);
+
         Map map = new Map();
 
-        map.generateMap(xsend);
+        map.generateMap();
+        map.display(xsend, MG.tileDirectories);
 
 
         player = new CatPlayer(8,8,"resources/Arrow.png", xsend);
-        System.out.println("test: " + (int)(Math.random()*20));
 
         board.redrawSymbols();
     }
 
-    //TODO:
-    /*
+    /*TODO:
 
         - Verkäufer
     - Tür
@@ -79,6 +81,9 @@ public class GameLogic implements KeyListener{
             player.move(e.getKeyCode()-36);
 
             board.redrawSymbols();
+        }
+        if(e.getKeyCode() == 77){
+            MG.start();
         }
     }
 

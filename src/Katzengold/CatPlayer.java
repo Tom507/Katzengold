@@ -1,5 +1,6 @@
 package Katzengold;
 
+import jserver.Board;
 import jserver.XSendAdapterEN;
 
 import java.lang.reflect.Array;
@@ -18,9 +19,8 @@ public class CatPlayer extends Movable {
     public CatPlayer(){};
 
     public CatPlayer (int X, int Y, String ImageDirectory, XSendAdapterEN xS) {
-        xsend = xS;
-        board = xsend.getBoard();
-        plotter = board.getPlotter();
+
+        this.xsend =xS;
 
         this.money = 0;
         this.x = X;
