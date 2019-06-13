@@ -1,15 +1,13 @@
 package Katzengold;
 
 import jserver.Board;
-import jserver.Symbol;
-import jserver.XSendAdapter;
 import jserver.XSendAdapterEN;
+import org.w3c.dom.events.Event;
 import plotter.Plotter;
 import java.awt.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Timer;
 
 public class GameLogic implements KeyListener{
     private Board board;
@@ -38,22 +36,24 @@ public class GameLogic implements KeyListener{
         Gl();
     }
 
-    public CatPlayer player;
+    public CatPlayer Player;
     public MapGen MG;
+    public TileDictionary TD;
 
     public void Gl(){
 
         MG = new MapGen(false);
+        TD = new TileDictionary();
 
-        Map map = new Map();
+        Map map = new Map(20, TD);
 
         map.generateMap();
-        map.display(xsend, MG.tileDirectories);
 
-
-        player = new CatPlayer(8,8,"resources/Arrow.png", xsend);
+        Player = new CatPlayer(8,8,TD.getById(1).directory, map);
+        map.display(xsend);
 
         board.redrawSymbols();
+        
     }
 
     /*TODO:
@@ -61,7 +61,7 @@ public class GameLogic implements KeyListener{
         - Verkäufer
     - Tür
     - Gegner
-    - Level
+    - level
     - Truhe
      */
 
@@ -74,11 +74,11 @@ public class GameLogic implements KeyListener{
         System.out.println(e.getKeyCode());
         if(e.getKeyCode() == 10){
             //Gl();
-            board.getSymbol(player.x, player.y).reset();
+            board.getSymbol(Player.x, Player.y).reset();
             board.redrawSymbols();
         }
         if (e.getKeyCode() > 36 && e.getKeyCode() < 41){
-            player.move(e.getKeyCode()-36);
+            Player.move(e.getKeyCode()-36);
 
             board.redrawSymbols();
         }

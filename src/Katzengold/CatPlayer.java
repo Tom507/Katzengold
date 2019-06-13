@@ -1,13 +1,6 @@
 package Katzengold;
 
-import jserver.Board;
 import jserver.XSendAdapterEN;
-
-import java.lang.reflect.Array;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class CatPlayer extends Movable {
 
@@ -18,16 +11,19 @@ public class CatPlayer extends Movable {
 
     public CatPlayer(){};
 
-    public CatPlayer (int X, int Y, String ImageDirectory, XSendAdapterEN xS) {
+    public CatPlayer (int X, int Y, String ImageDirectory, Map m) {
 
-        this.xsend =xS;
-
-        this.money = 0;
+        this.map = m;
         this.x = X;
         this.y = Y;
+        map.level[x][y] = this;
+
+        this.money = 0;
+
         this.imageDirectory = ImageDirectory;
-        this.up = catImages[1];
+
         this.left = catImages[0];
+        this.up = catImages[1];
         this.right = catImages[2];
         this.down = catImages[3];
     }
@@ -37,25 +33,25 @@ public class CatPlayer extends Movable {
         boolean supRet = super.move(direction);
 
         //String key = Character.toString((char) 9919 );
-        if( Map.Level[x][y] != null) {
-            if (Map.Level[x][y].getClass() == Coin.class) {
+        if( map.level[x][y] != null) {
+            if (map.level[x][y].getClass() == Coin.class) {
                 System.out.println("Coin");
-                this.money += ((Coin) Map.Level[x][y]).value;
-                Map.Level[x][y] = null;
+                this.money += ((Coin) map.level[x][y]).value;
+                map.level[x][y] = null;
                 //xsend.statusText("KatzenGold : \uD834" + 0x26BF );
             }
         }
-        if( Map.Level[x][y] != null) {
-            if (Map.Level[x][y].getClass() == Key.class) {
+        if( map.level[x][y] != null) {
+            if (map.level[x][y].getClass() == Key.class) {
                 System.out.println("Key");
                 this.keys += 1;
-                Map.Level[x][y] = null;
+                map.level[x][y] = null;
             }
         }
 
 
-        if(Map.Level[x][y] != null){
-            if(Map.Level[x][y+1].getClass() == Merchant.class){
+        if(map.level[x][y] != null){
+            if(map.level[x][y+1].getClass() == Merchant.class){
 
             }
         }

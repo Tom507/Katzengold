@@ -13,15 +13,15 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 import java.io.*;
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.util.Arrays;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
 public class MapGen implements BoardClickListener, KeyListener, ActionListener {
 
     public MapGen(boolean startMapGen){
-        tiles();
+        tileDictionary = new TileDictionary();
 
         if(startMapGen){
             this.start();
@@ -40,10 +40,10 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
 
 
     //#######> Variables Setup
-    public Dictionary tileDirectories = new Hashtable();
+    public TileDictionary tileDictionary;
     private int selected = 0;
     private int size = 0;
-    public int[][] map;
+    public int[][] intMap;
 
 
     //#######> Interface Setup
@@ -51,29 +51,7 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
     private JButton load = new JButton("load");
 
     //####################> Main ##############################################
-    /*
-    private static MapGen MP;
-    public static void main(String[] args) {
-        MP = new MapGen();
-        MP.start();
-    }*/
-    private void tiles(){
-        //####################> Tiles ##############################################
-        tileDirectories.put("0", "resources/Empty.png");
-        tileDirectories.put("1","resources/cat/Down.png");
-        tileDirectories.put("5","resources/Tree.png");
-        tileDirectories.put("9", "resources/Water.png");
 
-        tileDirectories.put("10", "resources/river/RiverCornerLeft.png");
-        tileDirectories.put("11", "resources/river/RiverCornerUp.png");
-        tileDirectories.put("12", "resources/river/RiverCornerRight.png");
-        tileDirectories.put("13", "resources/river/RiverCornerDown.png");
-
-        tileDirectories.put("14", "resources/river/RiverStraightLeft.png");
-        tileDirectories.put("15", "resources/river/RiverStraightUp.png");
-        tileDirectories.put("16", "resources/river/RiverStraightRight.png");
-        tileDirectories.put("17", "resources/river/RiverStraightDown.png");
-    }
 
     public void start(){
 
@@ -107,44 +85,78 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
         selectXsend.forms("none");
         selectXsend.size(10,10);
         selectXsend.statusText("Tile Selektor");
+
         for(int i =0; i< 20; i++){ //Selection Board Setup
             if(i > 10){
                 try {
-                    selectBoard.getSymbol(((i-9)/4) + 10).setImage(tileDirectories.get("" + i).toString(), selectPlotter);
-                    System.out.println(tileDirectories.get("" + i));
+                    selectBoard.getSymbol(((i-9)/4) + 10).setImage(tileDictionary.getById(i).directory, selectPlotter);
+                    System.out.println(tileDictionary.getById(i).toString());
                 } catch (Exception e) {
                 }
                 i+=3;
             }else {
                 try {
-                    selectBoard.getSymbol(i).setImage(tileDirectories.get("" + i).toString(), selectPlotter);
-                    System.out.println(tileDirectories.get("" + i));
+                    selectBoard.getSymbol(i).setImage(tileDictionary.getById(i).directory, selectPlotter);
+                    System.out.println(tileDictionary.getById(i).directory);
                 } catch (Exception e) {
                 }
             }
         }
-        System.out.println( "0 : "+ tileDirectories.get("1"));
+        System.out.println( "0 : "+ tileDictionary.getById(1));
         selectBoard.redrawSymbols();
 
         //####################> Map #######################################
-        map = new int[size][size];
+
+        intMap = new int[size][size];
     }
 
     //####################> Read + Write ##############################################
-    public  static int[][] read (String filename){ //TODO
-        return new  int[2][3];
+    public  static int[][] read (String filename) throws Exception{
+
+        Scanner sc = new Scanner(new File(filename));
+
+        int lineCount = sc.nextInt();
+
+        int[][] returnArray = new int[lineCount][lineCount];
+
+        for(int y = 0; y < lineCount; y++){
+            for (int x = 0; x < lineCount; x++){
+                returnArray[y][x] = sc.nextInt();
+            }
+        }
+
+        /*
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+
+        int[][] returnArray = new int[(int)br.lines().count()][(int) br.lines().count()];
+
+        String st;
+        for (int y =0; (st = br.readLine()) != null; y++) {
+
+            for(int x=0; x < st.length(); x++){
+
+                String num = "";
+                for(int i=0; st.charAt(i) != ' '; i++ ){
+                    num += st.charAt(i);
+                }
+                returnArray[x][y] = Integer.parseInt(num);
+            }
+        }
+
+         */
+        return returnArray;
     }
 
-    public static void writeMap (String filename, int[][]map) throws IOException {
+    public static void writeIntMap(String filename, int[][]map) throws IOException {
         BufferedWriter outputWriter = null;
         outputWriter = new BufferedWriter(new FileWriter(filename));
 
+        outputWriter.write(map.length + "");
+        outputWriter.newLine();
+
         for(int[] row : map){
             for (int i = 0; i < row.length; i++) {
-                // Maybe:
                 outputWriter.write(String.format("%02d", row[i]) +" ");
-                // Or:
-                //outputWriter.write(Integer.toString(row[i]));
             }
             outputWriter.newLine();
         }
@@ -161,10 +173,10 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
         if(selected >= 10)
             selection =  selected + rotationOffset;
 
-        board.getSymbol(e.getX(), e.getY()).setImage(tileDirectories.get(""+(selection)).toString(), board.getPlotter());
+        board.getSymbol(e.getX(), e.getY()).setImage(tileDictionary.getById(selection).directory, board.getPlotter());
         xsend.form2(e.getX(),e.getY(),"none");
         // in array speichern
-        map[e.getX()][e.getY()] = selection;
+        intMap[e.getX()][e.getY()] = selection;
         board.redrawSymbols();
     }
 
@@ -198,7 +210,7 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
         }
         System.out.println("rotation : " + rotationOffset);
         if(e.getKeyCode() == 10){ // Enter
-            for (int[] row: map) {
+            for (int[] row: intMap) {
                 String r ="";
                 for(int tile : row){
                     r = r + tile+ ", ";
@@ -221,17 +233,29 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) { // Save
         try {
-            writeMap("resources/maps/"+ JOptionPane.showInputDialog(null, "save as :"), map);
+            writeIntMap("resources/maps/"+ JOptionPane.showInputDialog(null, "save as :"), intMap);
             JOptionPane.showMessageDialog(null,"Save Complete");
         }catch (IOException ex){
             JOptionPane.showMessageDialog(null,"Save Failed");
         }
-
     }
+
     public void load (ActionEvent e) { // Load
         try {
-            map = read(JOptionPane.showInputDialog(null, "enter File name :"));
-        }catch (Exception ex){}
-        JOptionPane.showMessageDialog(null, "loaded");
+            //intMap = read("resources/maps/" + JOptionPane.showInputDialog(null, "enter map File name :"));
+            intMap = read("resources/maps/test.txt");
+            Map m = new Map(intMap.length, tileDictionary);
+            m.setIntMap(intMap);
+            xsend.forms("none");
+            m.display(xsend);
+            intMap = m.toIntMap();
+            System.out.println( Arrays.toString(intMap));
+
+            JOptionPane.showMessageDialog(null, "loaded");
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "load Failed : "+ ex.getMessage());
+            ex.printStackTrace();
+        }
+
     }
 }

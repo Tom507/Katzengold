@@ -13,7 +13,7 @@ public class LevelTile {
     public int x;
     public int y;
 
-    public LevelTile(){};
+    public LevelTile(){}
 
     public LevelTile (int X, int Y, String ImageDirectory){
 

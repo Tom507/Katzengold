@@ -6,33 +6,38 @@ import plotter.Plotter;
 
 public class Movable extends Collidable{
 
-    public XSendAdapterEN xsend;
-    public Board board;
-    public Plotter plotter;
+    protected XSendAdapterEN xsend;
+    protected Board board;
+    protected Plotter plotter;
+    protected Map map;
 
     protected String up = "resources/Up.png";
     protected String down = "resources/Down.png";
     protected String left = "resources/Left.png";
     protected String right = "resources/Right.png";
 
-    public Movable (){};
-    public Movable (int X, int Y, String ImageDirectory, XSendAdapterEN xS){
-        xsend = xS;
-        board = xsend.getBoard();
-        plotter = board.getPlotter();
+    public Movable (){}
+    public Movable (int X, int Y, String ImageDirectory, Map m){
+        this.map = m;
         this.x = X;
-
         this.y = Y;
+        map.level[x][y] = this;
+
         this.imageDirectory = ImageDirectory;
+    }
+
+    public void setXsend(XSendAdapterEN xsend) {
+        this.xsend = xsend;
+        this.board = this.xsend.getBoard();
+        this.plotter = this.board.getPlotter();
     }
 
     public boolean move (int direction){
 
-        //remove old image
         switch (direction){
             case 1:
                 if (colCase(x-1,y)) {
-                    board.getSymbol(this.x, this.y).setImage(this.emptyImage, plotter);
+                    this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
 
                     this.x -= 1;
                 }
@@ -41,7 +46,7 @@ public class Movable extends Collidable{
                 break;
             case 2:
                 if (colCase(x,y+1)) {
-                    board.getSymbol(this.x, this.y).setImage(this.emptyImage, plotter);
+                    this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
 
                     this.y += 1;
                 }
@@ -50,7 +55,7 @@ public class Movable extends Collidable{
                 break;
             case 3:
                 if (colCase(x+1,y)) {
-                    board.getSymbol(this.x, this.y).setImage(this.emptyImage, plotter);
+                    this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
 
                     this.x += 1;
                 }
@@ -59,7 +64,7 @@ public class Movable extends Collidable{
                 break;
             case 4:
                 if (colCase(x,y-1)) {
-                    board.getSymbol(this.x, this.y).setImage(this.emptyImage, plotter);
+                    this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
                     this.y -= 1;
                 }
                 setImage(this.down);
@@ -76,13 +81,13 @@ public class Movable extends Collidable{
     }
 
     private boolean colCase(int X,int Y){
-        if(Map.Level[X][Y] != null){
-            return !Map.Level[X][Y].collidable;
+        if(this.map.level[X][Y] != null){
+            return !this.map.level[X][Y].collidable;
         } else
             return true;
     }
 
     public void setImage (String image){
-        board.getSymbol(this.x, this.y).setImage(image, plotter);
+        this.board.getSymbol(this.x, this.y).setImage(image, this.plotter);
     }
 }
