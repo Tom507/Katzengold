@@ -21,7 +21,7 @@ public class Movable extends Collidable{
         this.map = m;
         this.x = X;
         this.y = Y;
-        map.level[x][y] = this;
+        //map.level[x][y] = this;
 
         this.imageDirectory = ImageDirectory;
     }
@@ -74,6 +74,7 @@ public class Movable extends Collidable{
         }
 
         xsend.symbolSize2(this.x, this.y, 1);
+        board.redrawSymbols();
         //set image
         //board.getSymbol(this.x, this.y).setImage(this.imageDirectory, plotter);
         //check for collision

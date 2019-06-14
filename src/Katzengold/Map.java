@@ -64,7 +64,7 @@ public class Map {
                     xs.getBoard().getSymbol(tile.x, tile.y).setImage(tile.imageDirectory, plotter);
 
                     if(tile instanceof Movable){ //tile.getClass().isAssignableFrom(Movable.class
-                        //System.out.println( "movable : " + tile.imageDirectory);
+                        System.out.println( "movable : " + tile.imageDirectory);
                         ((Movable)tile).setXsend(xs);
                     }
                 }

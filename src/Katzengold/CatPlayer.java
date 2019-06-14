@@ -15,10 +15,11 @@ public class CatPlayer extends Movable {
 
     public CatPlayer (int X, int Y, String ImageDirectory, Map m) {
 
+        GameLogic.Player = this;
         this.map = m;
         this.x = X;
         this.y = Y;
-        map.level[x][y] = this;
+        //map.level[x][y] = this;
 
         this.money = 0;
 
@@ -34,10 +35,10 @@ public class CatPlayer extends Movable {
     public boolean move(int direction){
         boolean supRet = super.move(direction);
 
-        if( map.level[x][y] != null) {  // ######## Coin
+        if(map.level[x][y] != null) {  // ######## Coin
             if (map.level[x][y].getClass() == Coin.class) {
                 System.out.println("Coin");
-                this.money += ((Coin) map.level[x][y]).value;
+                money += ((Coin) map.level[x][y]).value;
                 map.level[x][y] = null;
                 //xsend.statusText("KatzenGold : \uD834" + 0x26BF );
             }
@@ -46,18 +47,18 @@ public class CatPlayer extends Movable {
         if( map.level[x][y] != null) { // ######## Key
             if (map.level[x][y].getClass() == Key.class) {
                 System.out.println("Key");
-                this.keys += 1;
+                keys += 1;
                 map.level[x][y] = null;
             }
         }
 
 
-        if(map.level[x][y+1].getClass() == Merchant.class){
+        if(this.map.level[x][y+1].getClass() == Merchant.class){
             if (direction == 2){
                 int reply = JOptionPane.showConfirmDialog(null, ((Merchant)map.level[x][y+1]).price + " coins?", "Coins!", JOptionPane.YES_NO_OPTION);
                 if (reply == JOptionPane.YES_OPTION) {
                     JOptionPane.showMessageDialog(null, "Coins!");
-                    this.money = this.money-((Merchant)map.level[x][y+1]).price;
+                    money = money-((Merchant)map.level[x][y+1]).price;
                 }
                 else {
                     JOptionPane.showMessageDialog(null, "Nö!");

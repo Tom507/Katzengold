@@ -14,9 +14,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GameLogic implements KeyListener, ActionListener {
-    private Board board;
+    public static Board board;
     private Plotter plotter;
-    private XSendAdapterEN xsend = new XSendAdapterEN();
+    public static XSendAdapterEN xsend = new XSendAdapterEN();
 
     private JButton load = new JButton("load");
 
@@ -29,23 +29,23 @@ public class GameLogic implements KeyListener, ActionListener {
     }
 
     public void setup(){
-        board = xsend.getBoard();
-        plotter = board.getPlotter();
-        xsend.forms("none");
-        xsend.size(boardSize,boardSize);
+        this.board = this.xsend.getBoard();
+        this.plotter = this.board.getPlotter();
+        this.xsend.forms("none");
+        this.xsend.size(this.boardSize,this.boardSize);
 
-        board.getGraphic().addKeyListener(this);
+        this.board.getGraphic().addKeyListener(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        board.setSize(screenSize.height-100, screenSize.height-100);
+        this.board.setSize(screenSize.height-100, screenSize.height-100);
 
-        board.getGraphic().addEastComponent(this.load);
-        load.addActionListener(this);
+        this.board.getGraphic().addEastComponent(this.load);
+        this.load.addActionListener(this);
 
         Gl();
     }
 
-    public CatPlayer Player;
+    public static CatPlayer Player;
     public MapGen MG;
     public TileDictionary TD;
 
@@ -56,10 +56,10 @@ public class GameLogic implements KeyListener, ActionListener {
 
         Map map = new Map(20, TD);
 
-        map.generateMap();
+        //map.generateMap();
 
-        Player = new CatPlayer(8,8,TD.getById(1).directory, map);
-        map.display(xsend);
+        //Player = new CatPlayer(8,8,TD.getById(1).directory, map);
+        //map.display(xsend);
 
         board.redrawSymbols();
         
@@ -84,12 +84,12 @@ public class GameLogic implements KeyListener, ActionListener {
         if(e.getKeyCode() == 10){
             //Gl();
             board.getSymbol(Player.x, Player.y).reset();
-            board.redrawSymbols();
         }
         if (e.getKeyCode() > 36 && e.getKeyCode() < 41){
+            XSendAdapterEN x1 = this.xsend;
+            XSendAdapterEN x2= Player.xsend;
             Player.move(e.getKeyCode()-36);
 
-            board.redrawSymbols();
         }
         if(e.getKeyCode() == 77){
             MG.start();
@@ -104,5 +104,11 @@ public class GameLogic implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         this.MG.load(e,this.xsend);
+        XSendAdapterEN x1 = this.xsend;
+        XSendAdapterEN x2= Player.xsend;
+        Board b1 = this.xsend.getBoard();
+        Board b2= Player.xsend.getBoard();
+        this.board.getGraphic().addKeyListener(this);
+        System.out.println("blub");
     }
 }

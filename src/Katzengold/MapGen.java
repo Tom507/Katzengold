@@ -253,8 +253,6 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
             m.setIntMap(this.intMap);
             xsend.forms("none");
             m.display(xsend);
-            this.intMap = m.toIntMap();
-            System.out.println( Arrays.toString(this.intMap));
 
             JOptionPane.showMessageDialog(null, "loaded");
         }catch (Exception ex){
