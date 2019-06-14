@@ -62,8 +62,9 @@ public class Map {
                 if(tile != null) {
                     System.out.println("x : " + tile.x + " y : " + tile.y+ " -- image : " + tile.imageDirectory);
                     xs.getBoard().getSymbol(tile.x, tile.y).setImage(tile.imageDirectory, plotter);
+
                     if(tile instanceof Movable){ //tile.getClass().isAssignableFrom(Movable.class
-                        System.out.println( "movable : " + tile.imageDirectory);
+                        //System.out.println( "movable : " + tile.imageDirectory);
                         ((Movable)tile).setXsend(xs);
                     }
                 }
@@ -100,6 +101,19 @@ public class Map {
                     break;
                     case 1:
                         outLevel[x][y] = new CatPlayer(x,y,tD.getById(tileId).directory, this);
+                        break;
+                    case 3:
+                        outLevel[x][y] = new Coin(x,y,tD.getById(tileId).directory, false, 1);
+                        break;
+                    case 4:
+                        outLevel[x][y] = new Key(x,y,tD.getById(tileId).directory, false, 0001);
+                        break;
+                    case 6:
+                        outLevel[x][y] = new Merchant(x,y,tD.getById(tileId).directory, true, 0001, 5);
+                        break;
+                    case 7:
+                        outLevel[x][y] = new Merchant(x,y,tD.getById(tileId).directory, true, 0002, 20);
+                        break;
                     default:
                         outLevel[x][y] = new Collidable(x,y,tD.getById(tileId).directory, true);
                 }

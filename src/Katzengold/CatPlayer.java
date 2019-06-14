@@ -2,6 +2,8 @@ package Katzengold;
 
 import jserver.XSendAdapterEN;
 
+import javax.swing.*;
+
 public class CatPlayer extends Movable {
 
     public int money =0;
@@ -32,8 +34,7 @@ public class CatPlayer extends Movable {
     public boolean move(int direction){
         boolean supRet = super.move(direction);
 
-        //String key = Character.toString((char) 9919 );
-        if( map.level[x][y] != null) {
+        if( map.level[x][y] != null) {  // ######## Coin
             if (map.level[x][y].getClass() == Coin.class) {
                 System.out.println("Coin");
                 this.money += ((Coin) map.level[x][y]).value;
@@ -41,7 +42,8 @@ public class CatPlayer extends Movable {
                 //xsend.statusText("KatzenGold : \uD834" + 0x26BF );
             }
         }
-        if( map.level[x][y] != null) {
+
+        if( map.level[x][y] != null) { // ######## Key
             if (map.level[x][y].getClass() == Key.class) {
                 System.out.println("Key");
                 this.keys += 1;
@@ -50,11 +52,19 @@ public class CatPlayer extends Movable {
         }
 
 
-        if(map.level[x][y] != null){
-            if(map.level[x][y+1].getClass() == Merchant.class){
-
+        if(map.level[x][y+1].getClass() == Merchant.class){
+            if (direction == 2){
+                int reply = JOptionPane.showConfirmDialog(null, ((Merchant)map.level[x][y+1]).price + " coins?", "Coins!", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Coins!");
+                    this.money = this.money-((Merchant)map.level[x][y+1]).price;
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Nö!");
+                }
             }
         }
+
 
         xsend.statusText( "KatzenGold : " + money  + " Keys : " + keys);
         return supRet;

@@ -1,6 +1,5 @@
 package Katzengold;
 
-import jserver.XSendAdapterEN;
 
 public class Key extends Collidable {
     public int keycode;

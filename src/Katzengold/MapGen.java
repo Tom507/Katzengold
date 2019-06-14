@@ -86,7 +86,7 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
         selectXsend.size(10,10);
         selectXsend.statusText("Tile Selektor");
 
-        for(int i =0; i< 20; i++){ //Selection Board Setup
+        for(int i =0; i< tileDictionary.tileList.size(); i++){ //Selection Board Setup
             if(i > 10){
                 try {
                     selectBoard.getSymbol(((i-9)/4) + 10).setImage(tileDictionary.getById(i).directory, selectPlotter);
@@ -124,26 +124,6 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
                 returnArray[y][x] = sc.nextInt();
             }
         }
-
-        /*
-        BufferedReader br = new BufferedReader(new FileReader(filename));
-
-        int[][] returnArray = new int[(int)br.lines().count()][(int) br.lines().count()];
-
-        String st;
-        for (int y =0; (st = br.readLine()) != null; y++) {
-
-            for(int x=0; x < st.length(); x++){
-
-                String num = "";
-                for(int i=0; st.charAt(i) != ' '; i++ ){
-                    num += st.charAt(i);
-                }
-                returnArray[x][y] = Integer.parseInt(num);
-            }
-        }
-
-         */
         return returnArray;
     }
 
@@ -242,14 +222,14 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
 
     public void load (ActionEvent e) { // Load
         try {
-            //intMap = read("resources/maps/" + JOptionPane.showInputDialog(null, "enter map File name :"));
-            intMap = read("resources/maps/test.txt");
-            Map m = new Map(intMap.length, tileDictionary);
-            m.setIntMap(intMap);
-            xsend.forms("none");
-            m.display(xsend);
-            intMap = m.toIntMap();
-            System.out.println( Arrays.toString(intMap));
+            this.intMap = read("resources/maps/" + JOptionPane.showInputDialog(null, "enter map File name :"));
+            //intMap = read("resources/maps/test.txt");
+            Map m = new Map(this.intMap.length, this.tileDictionary);
+            m.setIntMap(this.intMap);
+            this.xsend.forms("none");
+            m.display(this.xsend);
+            this.intMap = m.toIntMap();
+            System.out.println( Arrays.toString(this.intMap));
 
             JOptionPane.showMessageDialog(null, "loaded");
         }catch (Exception ex){
@@ -257,5 +237,29 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
             ex.printStackTrace();
         }
 
+    }
+    public void clearBoard(XSendAdapterEN xsend){
+        for(int i=0; i< xsend.getBoard().getSymbolCount();i++){
+            xsend.getBoard().getSymbol(i).setImage(tileDictionary.getById(0).directory, xsend.getBoard().getPlotter());
+        }
+    }
+
+    public void load (ActionEvent e, XSendAdapterEN xsend) { // Load
+        try {
+            clearBoard(xsend);
+            this.intMap = read("resources/maps/" + JOptionPane.showInputDialog(null, "enter map File name :"));
+            //intMap = read("resources/maps/test.txt");
+            Map m = new Map(this.intMap.length, this.tileDictionary);
+            m.setIntMap(this.intMap);
+            xsend.forms("none");
+            m.display(xsend);
+            this.intMap = m.toIntMap();
+            System.out.println( Arrays.toString(this.intMap));
+
+            JOptionPane.showMessageDialog(null, "loaded");
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "load Failed : "+ ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 }

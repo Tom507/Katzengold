@@ -34,45 +34,46 @@ public class Movable extends Collidable{
 
     public boolean move (int direction){
 
+        xsend.symbolSize2(this.x, this.y, 0.5);
+
         switch (direction){
-            case 1:
+            case 1: //Left
                 if (colCase(x-1,y)) {
                     this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
 
                     this.x -= 1;
                 }
                 setImage(this.left);
-
                 break;
-            case 2:
+
+            case 2://Up
                 if (colCase(x,y+1)) {
                     this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
 
                     this.y += 1;
                 }
                 setImage(this.up);
-
                 break;
-            case 3:
+
+            case 3://Right
                 if (colCase(x+1,y)) {
                     this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
 
                     this.x += 1;
                 }
                 setImage(this.right);
-
                 break;
-            case 4:
+
+            case 4://Down
                 if (colCase(x,y-1)) {
                     this.board.getSymbol(this.x, this.y).setImage(this.emptyImage, this.plotter);
                     this.y -= 1;
                 }
                 setImage(this.down);
-
                 break;
         }
 
-
+        xsend.symbolSize2(this.x, this.y, 1);
         //set image
         //board.getSymbol(this.x, this.y).setImage(this.imageDirectory, plotter);
         //check for collision

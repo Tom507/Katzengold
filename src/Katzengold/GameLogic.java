@@ -4,15 +4,21 @@ import jserver.Board;
 import jserver.XSendAdapterEN;
 import org.w3c.dom.events.Event;
 import plotter.Plotter;
+
+import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GameLogic implements KeyListener{
+public class GameLogic implements KeyListener, ActionListener {
     private Board board;
     private Plotter plotter;
     private XSendAdapterEN xsend = new XSendAdapterEN();
+
+    private JButton load = new JButton("load");
 
     public int boardSize = 20;
 
@@ -32,6 +38,9 @@ public class GameLogic implements KeyListener{
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         board.setSize(screenSize.height-100, screenSize.height-100);
+
+        board.getGraphic().addEastComponent(this.load);
+        load.addActionListener(this);
 
         Gl();
     }
@@ -90,5 +99,10 @@ public class GameLogic implements KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.MG.load(e,this.xsend);
     }
 }
