@@ -34,7 +34,7 @@ public class Movable extends Collidable{
 
     public boolean move (int direction){
 
-        xsend.symbolSize2(this.x, this.y, 0.5);
+        //xsend.symbolSize2(this.x, this.y, 0.5);
 
         switch (direction){
             case 1: //Left
@@ -73,7 +73,7 @@ public class Movable extends Collidable{
                 break;
         }
 
-        xsend.symbolSize2(this.x, this.y, 1);
+        //xsend.symbolSize2(this.x, this.y, 1);
         board.redrawSymbols();
         //set image
         //board.getSymbol(this.x, this.y).setImage(this.imageDirectory, plotter);

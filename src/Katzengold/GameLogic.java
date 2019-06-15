@@ -56,10 +56,11 @@ public class GameLogic implements KeyListener, ActionListener {
 
         Map map = new Map(20, TD);
 
-        //map.generateMap();
+        map.generateMap();
 
-        //Player = new CatPlayer(8,8,TD.getById(1).directory, map);
-        //map.display(xsend);
+        Player = new CatPlayer(8,8,TD.getById(1).directory, map);
+        Player.setXsend(xsend);
+        map.display(xsend);
 
         board.redrawSymbols();
         
@@ -103,12 +104,12 @@ public class GameLogic implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.MG.load(e,this.xsend);
-        XSendAdapterEN x1 = this.xsend;
+        this.MG.load(e,xsend);
+        XSendAdapterEN x1 = xsend;
         XSendAdapterEN x2= Player.xsend;
-        Board b1 = this.xsend.getBoard();
+        Board b1 = xsend.getBoard();
         Board b2= Player.xsend.getBoard();
-        this.board.getGraphic().addKeyListener(this);
+        board.getGraphic().addKeyListener(this);
         System.out.println("blub");
     }
 }
