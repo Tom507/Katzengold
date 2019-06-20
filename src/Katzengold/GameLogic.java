@@ -34,7 +34,9 @@ public class GameLogic implements KeyListener, ActionListener {
         this.xsend.forms("none");
         this.xsend.size(this.boardSize,this.boardSize);
 
-        this.board.getGraphic().addKeyListener(this);
+        this.board.getPlotter().addKeyListener(this);
+        plotter.setFocusable(true);
+        plotter.requestFocusInWindow();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.board.setSize(screenSize.height-100, screenSize.height-100);
@@ -56,11 +58,13 @@ public class GameLogic implements KeyListener, ActionListener {
 
         Map map = new Map(20, TD);
 
-        map.generateMap();
+        //map.generateMap();
 
-        Player = new CatPlayer(8,8,TD.getById(1).directory, map);
-        Player.setXsend(xsend);
-        map.display(xsend);
+        //Player = new CatPlayer(8,8,TD.getById(1).directory, map);
+        //Player.setXsend(xsend);
+        //map.display(xsend);
+
+
 
         board.redrawSymbols();
         
@@ -74,6 +78,11 @@ public class GameLogic implements KeyListener, ActionListener {
     - level
     - Truhe
      */
+    public void loadMap(String map){
+        this.MG.load(xsend, map);
+        plotter.setFocusable(true);
+        plotter.requestFocusInWindow();
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -104,12 +113,8 @@ public class GameLogic implements KeyListener, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.MG.load(e,xsend);
-        XSendAdapterEN x1 = xsend;
-        XSendAdapterEN x2= Player.xsend;
-        Board b1 = xsend.getBoard();
-        Board b2= Player.xsend.getBoard();
-        board.getGraphic().addKeyListener(this);
-        System.out.println("blub");
+        this.MG.load(xsend);
+        plotter.setFocusable(true);
+        plotter.requestFocusInWindow();
     }
 }

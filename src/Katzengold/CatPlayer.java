@@ -9,6 +9,8 @@ public class CatPlayer extends Movable {
     public int money =0;
     public int keys = 0;
 
+    public Bridge bridge;
+
     private String[] catImages = {"resources/cat/Left.png","resources/cat/Up.png","resources/cat/Right.png","resources/cat/Down.png"};
 
     public CatPlayer(){};
@@ -52,20 +54,29 @@ public class CatPlayer extends Movable {
             }
         }
 
+        if(map.level[x][y].getClass() == Bridge.class){
+            bridge = (Bridge)map.level[x][y];
+            bridge.onBridge(direction, xsend);
+        }
+
+        if(bridge != null && map.level[x][y] == null){
+            bridge.offBridge(direction);
+            bridge = null;
+        }
 
         if(this.map.level[x][y+1].getClass() == Merchant.class){
+            Merchant merchant = (Merchant) map.level[x][y+1];
             if (direction == 2){
                 int reply = JOptionPane.showConfirmDialog(null, ((Merchant)map.level[x][y+1]).price + " coins?", "Coins!", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(null, "Coins!");
-                    money = money-((Merchant)map.level[x][y+1]).price;
+                if (reply == JOptionPane.YES_OPTION && money > merchant.price) {
+                    JOptionPane.showMessageDialog(null, "Dankeeeee!");
+                    money = money - merchant.price;
                 }
                 else {
-                    JOptionPane.showMessageDialog(null, "Nö!");
+                    JOptionPane.showMessageDialog(null, "Nope!");
                 }
             }
         }
-
 
         xsend.statusText( "KatzenGold : " + money  + " Keys : " + keys);
         return supRet;

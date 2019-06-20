@@ -1,6 +1,5 @@
 package Katzengold;
 
-import jserver.XSendAdapterEN;
 
 public class Coin extends Collidable {
     public int value;

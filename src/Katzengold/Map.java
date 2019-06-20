@@ -114,8 +114,15 @@ public class Map {
                     case 7:
                         outLevel[x][y] = new Merchant(x,y,tD.getById(tileId).directory, true, 0002, 20);
                         break;
+
+                    case 18:
+                    case 19:
+                    case 20:
+                    case 21:
+                        outLevel[x][y] = new Bridge(x,y,tD.getById(tileId).directory, false);
+                        break;
                     default:
-                        outLevel[x][y] = new Collidable(x,y,tD.getById(tileId).directory, true);
+                        outLevel[x][y] = new Collidable(x,y,tD.getById(tileId).directory, tD.getById(tileId).collidable);
                 }
             }
         }

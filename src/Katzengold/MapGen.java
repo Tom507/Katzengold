@@ -244,11 +244,27 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
         }
     }
 
-    public void load (ActionEvent e, XSendAdapterEN xsend) { // Load
+    public void load ( XSendAdapterEN xsend) { // Load
         try {
             clearBoard(xsend);
             this.intMap = read("resources/maps/" + JOptionPane.showInputDialog(null, "enter map File name :"));
             //intMap = read("resources/maps/test.txt");
+            Map m = new Map(this.intMap.length, this.tileDictionary);
+            m.setIntMap(this.intMap);
+            xsend.forms("none");
+            m.display(xsend);
+
+            JOptionPane.showMessageDialog(null, "loaded");
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "load Failed : "+ ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public void load ( XSendAdapterEN xsend, String levelPath) { // Load
+        try {
+            clearBoard(xsend);
+            this.intMap = read(levelPath);
             Map m = new Map(this.intMap.length, this.tileDictionary);
             m.setIntMap(this.intMap);
             xsend.forms("none");
