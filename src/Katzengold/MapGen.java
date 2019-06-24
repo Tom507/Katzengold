@@ -45,6 +45,8 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
     private int size = 0;
     public int[][] intMap;
 
+    public int tileDictionaryOffset = 20;
+
 
     //#######> Interface Setup
     private JButton save = new JButton("save");
@@ -86,10 +88,11 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
         selectXsend.size(10,10);
         selectXsend.statusText("Tile Selektor");
 
-        for(int i =0; i< tileDictionary.tileList.size(); i++){ //Selection Board Setup
-            if(i > 10){
+
+        for(int i =0; i< 100; i++){ //Selection Board Setup
+            if(i > tileDictionaryOffset){
                 try {
-                    selectBoard.getSymbol(((i-9)/4) + 10).setImage(tileDictionary.getById(i).directory, selectPlotter);
+                    selectBoard.getSymbol(((i - tileDictionaryOffset - 1)/4) + tileDictionaryOffset).setImage(tileDictionary.getById(i).directory, selectPlotter);
                     System.out.println(tileDictionary.getById(i).toString());
                 } catch (Exception e) {
                 }
@@ -150,7 +153,7 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
     public void boardClick(BoardClickEvent e) {
         System.out.println(e.getX()+ e.getY()*size + ""); // an board stelle schreiben
         int selection = selected;
-        if(selected >= 10)
+        if(selected >= tileDictionaryOffset)
             selection =  selected + rotationOffset;
 
         board.getSymbol(e.getX(), e.getY()).setImage(tileDictionary.getById(selection).directory, board.getPlotter());
@@ -264,9 +267,10 @@ public class MapGen implements BoardClickListener, KeyListener, ActionListener {
     public void load ( XSendAdapterEN xsend, String levelPath) { // Load
         try {
             clearBoard(xsend);
-            this.intMap = read(levelPath);
-            Map m = new Map(this.intMap.length, this.tileDictionary);
-            m.setIntMap(this.intMap);
+            intMap = read(levelPath);
+            Map m = new Map(intMap.length, tileDictionary);
+            System.out.println(Arrays.toString(intMap));
+            m.setIntMap(intMap);
             xsend.forms("none");
             m.display(xsend);
 

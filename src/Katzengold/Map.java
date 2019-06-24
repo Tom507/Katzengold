@@ -114,11 +114,12 @@ public class Map {
                     case 7:
                         outLevel[x][y] = new Merchant(x,y,tD.getById(tileId).directory, true, 0002, 20);
                         break;
+                    case 10:
 
-                    case 18:
-                    case 19:
-                    case 20:
-                    case 21:
+                    case 28:
+                    case 29:
+                    case 30:
+                    case 31:
                         outLevel[x][y] = new Bridge(x,y,tD.getById(tileId).directory, false);
                         break;
                     default:

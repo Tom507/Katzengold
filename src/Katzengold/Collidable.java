@@ -15,4 +15,5 @@ public class Collidable extends LevelTile {
         this.imageDirectory = ImageDirectory;
         this.collidable = collidable;
     }
+
 }

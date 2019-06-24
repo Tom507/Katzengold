@@ -22,10 +22,12 @@ public class GameLogic implements KeyListener, ActionListener {
 
     public int boardSize = 20;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         GameLogic gameLogic = new GameLogic();
         //gameLogic.Gl();
         gameLogic.setup();
+        Thread.sleep(1000);
+        gameLogic.Gl();
     }
 
     public void setup(){
@@ -44,19 +46,21 @@ public class GameLogic implements KeyListener, ActionListener {
         this.board.getGraphic().addEastComponent(this.load);
         this.load.addActionListener(this);
 
-        Gl();
+
+        MG = new MapGen(false);
+        TD = new TileDictionary();
+
+        map = new Map(20, TD);
     }
 
     public static CatPlayer Player;
     public MapGen MG;
     public TileDictionary TD;
+    public Map map;
 
     public void Gl(){
 
-        MG = new MapGen(false);
-        TD = new TileDictionary();
 
-        Map map = new Map(20, TD);
 
         //map.generateMap();
 
@@ -64,9 +68,11 @@ public class GameLogic implements KeyListener, ActionListener {
         //Player.setXsend(xsend);
         //map.display(xsend);
 
+        loadMap("resources/maps/test.txt");
 
+        //map.display(xsend);
 
-        board.redrawSymbols();
+        //board.redrawSymbols();
         
     }
 
